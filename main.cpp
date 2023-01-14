@@ -302,9 +302,9 @@ void FormatTypedElement(void const* data, ONNXTensorElementDataType dataType, /*
 std::string GetTensorName(size_t index, Ort::Session const& session, bool isInput)
 {
     Ort::AllocatorWithDefaultOptions allocator;
-    char* name = isInput ? session.GetInputName(index, allocator) : session.GetOutputName(index, allocator);
-    std::string returnName(name);
-    allocator.Free(name); // Don't leak memory.
+    Ort::AllocatedStringPtr name = isInput ? session.GetInputNameAllocated(index, allocator) : session.GetOutputNameAllocated(index, allocator);
+    std::string returnName(name.get());
+    name.release();
     return returnName;
 }
 
@@ -1045,7 +1045,7 @@ void UploadTensorData(
 
 void DownloadTensorData(
     ID3D12CommandQueue* commandQueue,
-    ID3D12CommandAllocator* commandAllocatar,
+    ID3D12CommandAllocator* commandAllocator,
     ID3D12GraphicsCommandList* commandList,
     ID3D12Resource* sourceResource,
     std::span<std::byte> destinationData
@@ -1081,6 +1081,8 @@ void DownloadTensorData(
     ID3D12CommandList* commandLists[] = { commandList };
     commandQueue->ExecuteCommandLists(static_cast<uint32_t>(std::size(commandLists)), commandLists);
     WaitForQueueToComplete(commandQueue);
+    THROW_IF_FAILED(commandAllocator->Reset());
+    THROW_IF_FAILED(commandList->Reset(commandAllocator, nullptr));
 
     // Copy from shared GPU/CPU memory to ordinary system RAM.
     size_t clampedDataByteSize = std::min(dataSizeInBytes, destinationData.size());
