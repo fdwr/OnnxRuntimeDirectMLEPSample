@@ -1,9 +1,9 @@
 # ONNX Runtime DirectML Execution Provider Sample
 
-Dwayne Robinson 2022-04-06
+Dwayne Robinson 2022-04-06..2023-06-22
 
 ## What is it?
-Just testing the DirectML execution provider in ONNX Runtime via D3D resources instead of CPU tensors (which incur synchronization costs).
+Just testing the DirectML execution provider in ONNX Runtime via D3D resources instead of CPU tensors (which incur synchronization costs). All the code is in `MainFullExample.cpp`, with `MainMinimalExample.cpp` being a much simpler introductory sample (no GPU binding and hard-coded to the given model).
 
 ## Usage
 - **OS**: Windows 10+.
@@ -18,6 +18,7 @@ Just testing the DirectML execution provider in ONNX Runtime via D3D resources i
 ## Related
 - https://github.com/microsoft/DirectML
 - https://docs.microsoft.com/en-us/windows/ai/directml/dml-intro
-- https://www.nuget.org/packages/Microsoft.AI.DirectML/1.9.0
+- https://www.nuget.org/packages/Microsoft.AI.DirectML/1.10.1
+- ttps://www.nuget.org/packages/Microsoft.ML.OnnxRuntime.DirectML/
 - https://github.com/microsoft/onnxruntime/
 - https://onnx.ai/
