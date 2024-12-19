@@ -19,6 +19,6 @@ Just testing the DirectML execution provider in ONNX Runtime via D3D resources i
 - https://github.com/microsoft/DirectML
 - https://docs.microsoft.com/en-us/windows/ai/directml/dml-intro
 - https://www.nuget.org/packages/Microsoft.AI.DirectML/1.10.1
-- ttps://www.nuget.org/packages/Microsoft.ML.OnnxRuntime.DirectML/
+- https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime.DirectML/
 - https://github.com/microsoft/onnxruntime/
 - https://onnx.ai/
