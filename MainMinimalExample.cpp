@@ -29,9 +29,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
 
-constexpr std::string_view modelFileConstant = "Upsample4xOpset11.onnx";
+constexpr std::string_view modelFileConstant = "en_PP-OCRv3_det_infer.onnx";
 constexpr uint32_t batchSize = 1;
-constexpr std::array<int64_t, 4> inputShape = {batchSize, 3, 100, 100}; // Sizes specific to Upsample4xOpset11.
+constexpr std::array<int64_t, 4> inputShape = {64, 3, 64, 64}; // Sizes specific to Upsample4xOpset11.
 
 ////////////////////////////////////////////////////////////////////////////////
 // Main execution
@@ -65,6 +65,9 @@ int main(int argc, char* argv[])
     sessionOptions.SetExecutionMode(ExecutionMode::ORT_SEQUENTIAL); // For DML EP
     sessionOptions.DisableMemPattern(); // For DML EP
     ortApi.AddFreeDimensionOverrideByName(sessionOptions, "batch_size", batchSize);
+    ortApi.AddFreeDimensionOverrideByName(sessionOptions, "p2o.DynamicDimension.0", 64);
+    ortApi.AddFreeDimensionOverrideByName(sessionOptions, "p2o.DynamicDimension.1", 64);
+    ortApi.AddFreeDimensionOverrideByName(sessionOptions, "p2o.DynamicDimension.2", 64);
     ortDmlApi->SessionOptionsAppendExecutionProvider_DML(sessionOptions, /*device index*/ 0);
     // Preferred approach above. Deprecated: OrtSessionOptionsAppendExecutionProvider_DML(sessionOptions, 0);
 
@@ -80,8 +83,8 @@ int main(int argc, char* argv[])
     Ort::MemoryInfo memoryInfo = Ort::MemoryInfo::CreateCpu(OrtAllocatorType::OrtArenaAllocator, OrtMemType::OrtMemTypeDefault);
     inputTensors.push_back(Ort::Value::CreateTensor<float>(memoryInfo, inputTensorValues.data(), inputTensorValues.size(), inputShape.data(), inputShape.size()));
 
-    std::vector<char const*> inputNames = {"input"};
-    std::vector<char const*> outputNames = {"output"};
+    std::vector<char const*> inputNames = {"x"};
+    std::vector<char const*> outputNames = {"sigmoid_0.tmp_0"};
 
     ////////////////////////////////////////
     // Execute the model with the given inputs and named outputs.

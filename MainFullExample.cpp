@@ -37,6 +37,9 @@ constexpr GraphOptimizationLevel GRAPH_OPTIMIZATION_LEVEL = GraphOptimizationLev
 constexpr std::pair<char const*, int> NAMED_MODEL_DIMENSIONS[] =
 {
     {"batch_size", 1},
+    {"p2o.DynamicDimension.0", 64},
+    {"p2o.DynamicDimension.1", 64},
+    {"p2o.DynamicDimension.2", 64},
     // Add more here if the model has any.
 };
 
