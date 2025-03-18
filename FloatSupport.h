@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#if __has_include(<stdfloat>)
+#if (__cplusplus >= 202302L) && __has_include(<stdfloat>)
 #include <stdfloat>
 #endif
 
